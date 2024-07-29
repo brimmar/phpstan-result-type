@@ -1,0 +1,27 @@
+services:
+    -
+        class: Brimmar\PHPStan\Rules\ResultUnsafeMethodCallRule
+        arguments:
+            resultInterface: 'Brimmar\PhpResult\Interfaces\Result'
+        tags:
+            - phpstan.rules.rule
+    -
+        class: Brimmar\PHPStan\Rules\ResultMapExceptionRule
+        arguments:
+            resultInterface: 'Brimmar\PhpResult\Interfaces\Result'
+        tags:
+            - phpstan.rules.rule
+    -
+        class: Brimmar\PHPStan\Rules\ResultMatchNamedArgumentsRule
+        arguments:
+            resultInterface: 'Brimmar\PhpResult\Interfaces\Result'
+        tags:
+            - phpstan.rules.rule
+    -
+        class: Brimmar\PHPStan\Rules\ResultOptionClassNameRule
+        arguments:
+            reflectionProvider: @reflectionProvider
+            resultInterface: 'Brimmar\PhpResult\Interfaces\Result'
+            optionInterface: 'Brimmar\PhpOption\Interfaces\Option'
+        tags:
+            - phpstan.rules.rule

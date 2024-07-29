@@ -1,0 +1,29 @@
+{
+  "name": "brimmar/phpstan-rustlike-result-extension",
+  "version": "1.0.0",
+  "description": "PHPStan extension to help the Result Type implementation",
+  "type": "phpstan-extension",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Brimmar\\PHPStan\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Bryan",
+      "email": "bryan.sergio@brimmar.dev"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require-dev": {
+    "phpstan/phpstan": "^1.11"
+  },
+  "extra": {
+    "phpstan": {
+      "includes": [
+        "extension.neon"
+      ]
+    }
+  }
+}
