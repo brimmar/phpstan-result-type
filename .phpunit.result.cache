@@ -1,0 +1,1 @@
+{"version":2,"defects":{"Brimmar\\PHPStan\\Tests\\Rules\\ResultMapExceptionRuleTest::testRule":8,"Brimmar\\PHPStan\\Tests\\Rules\\ResultUnsafeMethodCallRuleTest::testRule":8},"times":{"Brimmar\\PHPStan\\Tests\\Rules\\ResultMapExceptionRuleTest::testRule":0.797,"Brimmar\\PHPStan\\Tests\\Rules\\ResultUnsafeMethodCallRuleTest::testRule":0.544}}

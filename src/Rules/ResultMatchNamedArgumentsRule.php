@@ -8,6 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\ObjectType;
 
 /**
@@ -51,18 +52,30 @@ class ResultMatchNamedArgumentsRule implements Rule
         }
 
         if (count($node->getArgs()) !== 2) {
-            return ['Result::match() must have exactly two arguments.'];
+            return [
+                RuleErrorBuilder::message('Result::match() must have exactly two arguments.')
+                    ->identifier('result.matchArgsCount')
+                    ->build(),
+            ];
         }
 
         $okArg = $node->getArgs()[0];
         $errArg = $node->getArgs()[1];
 
         if ($okArg->name === null || $errArg->name === null) {
-            return ['Result::match() must use named arguments "Ok" and "Err".'];
+            return [
+                RuleErrorBuilder::message('Result::match() must use named arguments "Ok" and "Err".')
+                    ->identifier('result.matchNamedArgs')
+                    ->build(),
+            ];
         }
 
         if ($okArg->name->name !== 'Ok' || $errArg->name->name !== 'Err') {
-            return ['Result::match() must use named arguments "Ok" and "Err" in this order.'];
+            return [
+                RuleErrorBuilder::message('Result::match() must use named arguments "Ok" and "Err" in this order.')
+                    ->identifier('result.matchArgsOrder')
+                    ->build(),
+            ];
         }
 
         return [];
