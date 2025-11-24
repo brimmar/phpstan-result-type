@@ -9,6 +9,12 @@
       "Brimmar\\PHPStan\\": "src/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+        "Brimmar\\PHPStan\\Tests\\": "tests/",
+        "Brimmar\\PhpResult\\Interfaces\\": "tests/Rules/"
+    }
+  },
   "authors": [
     {
       "name": "Bryan",
@@ -17,7 +23,8 @@
   ],
   "minimum-stability": "stable",
   "require-dev": {
-    "phpstan/phpstan": "^1.11"
+    "phpstan/phpstan": "^1.11",
+    "phpunit/phpunit": "^10.1"
   },
   "extra": {
     "phpstan": {

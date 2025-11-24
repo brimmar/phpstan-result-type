@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\ArrowFunction;
 use PhpParser\Node\Expr\Closure;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\Throw_;
+use PhpParser\Node\Expr\Throw_ as ExprThrow;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\ObjectType;
@@ -50,6 +51,30 @@ class ResultMapExceptionRule implements Rule
         return $this->checkMapUsage($node, $scope);
     }
 
+    private function containsThrow(Node $node): bool
+    {
+        if ($node instanceof Throw_ || $node instanceof ExprThrow) {
+            return true;
+        }
+
+        foreach ($node->getSubNodeNames() as $name) {
+            $subNode = $node->$name;
+            if ($subNode instanceof Node) {
+                if ($this->containsThrow($subNode)) {
+                    return true;
+                }
+            } elseif (is_array($subNode)) {
+                foreach ($subNode as $item) {
+                    if ($item instanceof Node && $this->containsThrow($item)) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
     /**
      * @return string[]
      */
@@ -67,7 +92,7 @@ class ResultMapExceptionRule implements Rule
 
         $stmts = $callbackArg instanceof Closure ? $callbackArg->stmts : [$callbackArg->expr];
         foreach ($stmts as $stmt) {
-            if ($stmt instanceof Throw_) {
+            if ($this->containsThrow($stmt)) {
                 return [
                     "Throwing exceptions in {$node->name->name}() callback may lead to unexpected behavior. Consider returning an Err instead.",
                 ];
