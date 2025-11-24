@@ -64,13 +64,11 @@ class ResultTypeSpecifyingExtension implements MethodTypeSpecifyingExtension, Ty
                 $node->var,
                 $okType,
                 TypeSpecifierContext::createTruthy(),
-                false,
                 $scope
             )->unionWith($this->typeSpecifier->create(
                 $node->var,
                 $errType,
                 TypeSpecifierContext::createFalsey(),
-                false,
                 $scope
             ));
         } else {
@@ -79,13 +77,11 @@ class ResultTypeSpecifyingExtension implements MethodTypeSpecifyingExtension, Ty
                 $node->var,
                 $errType,
                 TypeSpecifierContext::createTruthy(),
-                false,
                 $scope
             )->unionWith($this->typeSpecifier->create(
                 $node->var,
                 $okType,
                 TypeSpecifierContext::createFalsey(),
-                false,
                 $scope
             ));
         }

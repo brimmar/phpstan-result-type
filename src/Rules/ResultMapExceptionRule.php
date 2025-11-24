@@ -12,8 +12,12 @@ use PhpParser\Node\Stmt\Throw_;
 use PhpParser\Node\Expr\Throw_ as ExprThrow;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\ObjectType;
 
+/**
+ * @implements Rule<MethodCall>
+ */
 class ResultMapExceptionRule implements Rule
 {
     private string $resultInterface;
@@ -30,7 +34,6 @@ class ResultMapExceptionRule implements Rule
 
     /**
      * @param  MethodCall  $node
-     * @return string[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
@@ -94,7 +97,9 @@ class ResultMapExceptionRule implements Rule
         foreach ($stmts as $stmt) {
             if ($this->containsThrow($stmt)) {
                 return [
-                    "Throwing exceptions in {$node->name->name}() callback may lead to unexpected behavior. Consider returning an Err instead.",
+                    RuleErrorBuilder::message("Throwing exceptions in {$node->name->name}() callback may lead to unexpected behavior. Consider returning an Err instead.")
+                        ->identifier('result.mapException')
+                        ->build(),
                 ];
             }
         }

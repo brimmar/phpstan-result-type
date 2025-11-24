@@ -9,11 +9,15 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\NeverType;
 use PHPStan\Type\ObjectType;
 
+/**
+ * @implements Rule<MethodCall>
+ */
 class ResultUnsafeMethodCallRule implements Rule
 {
     public function __construct(private string $resultInterface = 'Brimmar\PhpResult\Interfaces\Result') {}
@@ -25,7 +29,6 @@ class ResultUnsafeMethodCallRule implements Rule
 
     /**
      * @param  MethodCall  $node
-     * @return string[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
@@ -67,7 +70,9 @@ class ResultUnsafeMethodCallRule implements Rule
         }
 
         return [
-            "Potentially unsafe use of {$methodName}() on Result type without proper checks. Consider using isOk()/isErr() checks, match(), or unwrapOr() for safer error handling.",
+            RuleErrorBuilder::message("Potentially unsafe use of {$methodName}() on Result type without proper checks. Consider using isOk()/isErr() checks, match(), or unwrapOr() for safer error handling.")
+                ->identifier('result.unsafeMethodCall')
+                ->build(),
         ];
     }
 }

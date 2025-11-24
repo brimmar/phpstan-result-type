@@ -11,9 +11,13 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\ObjectType;
 use PHPStan\Reflection\ReflectionProvider;
 
+/**
+ * @implements Rule<MethodCall>
+ */
 class ResultOptionClassNameRule implements Rule
 {
     private string $resultInterface;
@@ -78,23 +82,39 @@ class ResultOptionClassNameRule implements Rule
             }
         }
 
-        return ["Invalid argument type for {$methodName}() method. Expected class name as string or ::class constant."];
+        return [
+            RuleErrorBuilder::message("Invalid argument type for {$methodName}() method. Expected class name as string or ::class constant.")
+                ->identifier('result.optionClassType')
+                ->build(),
+        ];
     }
 
     private function validateClassName(string $className, string $methodName): array
     {
         if (!$this->reflectionProvider->hasClass($className)) {
-            return ["Class {$className} does not exist."];
+            return [
+                RuleErrorBuilder::message("Class {$className} does not exist.")
+                    ->identifier('class.notFound')
+                    ->build(),
+            ];
         }
 
         $classReflection = $this->reflectionProvider->getClass($className);
 
         if (!$classReflection->isInstantiable()) {
-            return ["Class {$className} is not instantiable."];
+            return [
+                RuleErrorBuilder::message("Class {$className} is not instantiable.")
+                    ->identifier('class.notInstantiable')
+                    ->build(),
+            ];
         }
 
         if (!$classReflection->implementsInterface($this->optionInterface)) {
-            return ["Class {$className} does not implement {$this->optionInterface}."];
+            return [
+                RuleErrorBuilder::message("Class {$className} does not implement {$this->optionInterface}.")
+                    ->identifier('class.notOption')
+                    ->build(),
+            ];
         }
 
         return [];
@@ -116,7 +136,11 @@ class ResultOptionClassNameRule implements Rule
         foreach ($classesToCheck as $className) {
             $result = $this->validateClassName($className, $methodName);
             if (!empty($result)) {
-                return ["Default class {$className} for {$methodName}() method is invalid: " . $result[0]];
+                return [
+                    RuleErrorBuilder::message("Default class {$className} for {$methodName}() method is invalid: " . $result[0]->getMessage())
+                        ->identifier('result.defaultOptionClass')
+                        ->build(),
+                ];
             }
         }
 
