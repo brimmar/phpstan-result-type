@@ -24,7 +24,7 @@
   "minimum-stability": "stable",
   "require-dev": {
     "phpstan/phpstan": "^2.0",
-    "phpunit/phpunit": "^10.1"
+    "phpunit/phpunit": "^13.3"
   },
   "extra": {
     "phpstan": {
