@@ -18,14 +18,6 @@ services:
         tags:
             - phpstan.rules.rule
     -
-        class: Brimmar\PHPStan\Rules\ResultOptionClassNameRule
-        arguments:
-            reflectionProvider: @reflectionProvider
-            resultInterface: 'Brimmar\PhpResult\Interfaces\Result'
-            optionInterface: 'Brimmar\PhpOption\Interfaces\Option'
-        tags:
-            - phpstan.rules.rule
-    -
         class: Brimmar\PHPStan\Extensions\ResultTypeSpecifyingExtension
         arguments:
             resultInterface: 'Brimmar\PhpResult\Interfaces\Result'
