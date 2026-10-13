@@ -122,11 +122,12 @@ class ResultUnusedRule implements Rule
         }
 
         if ($expr instanceof StaticCall && $expr->name instanceof Identifier && $expr->class instanceof Name) {
-            if (! $this->reflectionProvider->hasClass($expr->class->toString())) {
+            $className = $scope->resolveName($expr->class);
+            if (! $this->reflectionProvider->hasClass($className)) {
                 return false;
             }
 
-            $class = $this->reflectionProvider->getClass($expr->class->toString());
+            $class = $this->reflectionProvider->getClass($className);
             if (! $class->hasMethod($expr->name->toString())) {
                 return false;
             }
