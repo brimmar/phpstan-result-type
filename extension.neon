@@ -18,6 +18,18 @@ services:
         tags:
             - phpstan.rules.rule
     -
+        class: Brimmar\PHPStan\Rules\ResultUnusedRule
+        arguments:
+            resultInterface: 'Brimmar\PhpResult\Interfaces\Result'
+        tags:
+            - phpstan.rules.rule
+    -
+        class: Brimmar\PHPStan\Rules\ResultShapeRule
+        arguments:
+            resultInterface: 'Brimmar\PhpResult\Interfaces\Result'
+        tags:
+            - phpstan.rules.rule
+    -
         class: Brimmar\PHPStan\Extensions\ResultTypeSpecifyingExtension
         arguments:
             resultInterface: 'Brimmar\PhpResult\Interfaces\Result'

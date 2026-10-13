@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Brimmar\PHPStan\Extensions;
 
+use Brimmar\PhpResult\Err;
+use Brimmar\PhpResult\Ok;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Analyser\SpecifiedTypes;
@@ -14,7 +16,7 @@ use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\MethodTypeSpecifyingExtension;
 use PHPStan\Type\MixedType;
-use PHPStan\Type\NeverType;
+use PHPStan\Type\Type;
 
 class ResultTypeSpecifyingExtension implements MethodTypeSpecifyingExtension, TypeSpecifierAwareExtension
 {
@@ -51,39 +53,34 @@ class ResultTypeSpecifyingExtension implements MethodTypeSpecifyingExtension, Ty
         Scope $scope,
         TypeSpecifierContext $context
     ): SpecifiedTypes {
-        $methodName = $methodReflection->getName();
-        $isOk = $methodName === 'isOk';
-
-        // Result<mixed, never> => It is OK
-        $okType = new GenericObjectType($this->getClass(), [new MixedType(), new NeverType()]);
-        // Result<never, mixed> => It is Err
-        $errType = new GenericObjectType($this->getClass(), [new NeverType(), new MixedType()]);
-
-        if ($isOk) {
-            return $this->typeSpecifier->create(
-                $node->var,
-                $okType,
-                TypeSpecifierContext::createTruthy(),
-                $scope
-            )->unionWith($this->typeSpecifier->create(
-                $node->var,
-                $errType,
-                TypeSpecifierContext::createFalsey(),
-                $scope
-            ));
+        if ($context->true()) {
+            $wantsOk = $methodReflection->getName() === 'isOk';
+        } elseif ($context->false()) {
+            $wantsOk = $methodReflection->getName() !== 'isOk';
         } else {
-            // isErr
-            return $this->typeSpecifier->create(
-                $node->var,
-                $errType,
-                TypeSpecifierContext::createTruthy(),
-                $scope
-            )->unionWith($this->typeSpecifier->create(
-                $node->var,
-                $okType,
-                TypeSpecifierContext::createFalsey(),
-                $scope
-            ));
+            return new SpecifiedTypes();
         }
+
+        [$success, $error] = $this->typeParameters($scope->getType($node->var));
+        $class = $wantsOk ? Ok::class : Err::class;
+
+        return $this->typeSpecifier->create(
+            $node->var,
+            new GenericObjectType($class, [$success, $error]),
+            TypeSpecifierContext::createTrue(),
+            $scope,
+        );
+    }
+
+    /**
+     * @return array{Type, Type}
+     */
+    private function typeParameters(Type $type): array
+    {
+        if ($type instanceof GenericObjectType && count($type->getTypes()) >= 2) {
+            return [$type->getTypes()[0], $type->getTypes()[1]];
+        }
+
+        return [new MixedType(), new MixedType()];
     }
 }

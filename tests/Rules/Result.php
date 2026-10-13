@@ -14,8 +14,10 @@ interface Result {
     /** @return E */
     public function unwrapErr();
     public function expect(string $msg);
+    public function expectErr(string $msg);
     public function intoOk();
     public function intoErr();
+    public function flatten(): Result;
     public function map(callable $callback): Result;
     public function mapErr(callable $callback): Result;
     public function match($Ok, $Err);
