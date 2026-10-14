@@ -1,6 +1,5 @@
 {
   "name": "brimmar/phpstan-rustlike-result-extension",
-  "version": "1.0.0",
   "description": "PHPStan extension to help the Result Type implementation",
   "type": "phpstan-extension",
   "license": "MIT",
