@@ -30,6 +30,10 @@ class ResultUnsafeMethodCallRuleTest extends RuleTestCase
                 'Potentially unsafe use of unwrap() on Result type without proper checks. Consider using isOk()/isErr() checks, match(), or unwrapOr() for safer error handling.',
                 12,
             ],
+            [
+                'Potentially unsafe use of expectErr() on Result type without proper checks. Consider using isOk()/isErr() checks, match(), or unwrapOr() for safer error handling.',
+                34,
+            ],
         ]);
     }
 }

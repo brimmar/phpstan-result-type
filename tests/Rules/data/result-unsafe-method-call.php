@@ -28,4 +28,28 @@ class TestClass
         // Safe
         $result->unwrap();
     }
+
+    public function testExpectErr(Result $result)
+    {
+        $result->expectErr('missing');
+    }
+
+    public function testExpectErrSafe(Result $result)
+    {
+        if ($result->isErr()) {
+            $result->expectErr('missing');
+        }
+    }
+
+    /** @param Result<int, never> $result */
+    public function testIntoOkNever(Result $result): void
+    {
+        $result->intoOk();
+    }
+
+    /** @param Result<never, string> $result */
+    public function testExpectErrNever(Result $result): void
+    {
+        $result->expectErr('missing');
+    }
 }

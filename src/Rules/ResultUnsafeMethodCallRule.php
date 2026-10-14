@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Brimmar\PHPStan\Rules;
 
+use Brimmar\PhpResult\Err;
+use Brimmar\PhpResult\Ok;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Identifier;
@@ -11,9 +13,9 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\Generic\GenericObjectType;
-use PHPStan\Type\MixedType;
 use PHPStan\Type\NeverType;
 use PHPStan\Type\ObjectType;
+use PHPStan\Type\Type;
 
 /**
  * @implements Rule<MethodCall>
@@ -43,7 +45,7 @@ class ResultUnsafeMethodCallRule implements Rule
             return [];
         }
 
-        $dangerousMethods = ['unwrap', 'expect', 'unwrapErr', 'intoOk', 'intoErr'];
+        $dangerousMethods = ['unwrap', 'expect', 'expectErr', 'unwrapErr', 'intoOk', 'intoErr'];
         if (! in_array($methodName, $dangerousMethods, true)) {
             return [];
         }
@@ -53,20 +55,13 @@ class ResultUnsafeMethodCallRule implements Rule
         // For unwrapErr/intoErr: we expect Result<never, E> (Ok side is impossible)
 
         $requireOk = in_array($methodName, ['unwrap', 'expect', 'intoOk'], true);
+        $types = $type instanceof GenericObjectType ? $type->getTypes() : [];
+        $impossible = $requireOk ? ($types[1] ?? null) : ($types[0] ?? null);
+        $definite = new ObjectType($requireOk ? Ok::class : Err::class);
 
-        if ($requireOk) {
-            // Check if it is guaranteed OK.
-            // i.e. Result<mixed, never> is supertype of current type.
-            $okRequirement = new GenericObjectType($this->resultInterface, [new MixedType(), new NeverType()]);
-            if ($okRequirement->isSuperTypeOf($type)->yes()) {
-                return [];
-            }
-        } else {
-            // Check if it is guaranteed Err.
-            $errRequirement = new GenericObjectType($this->resultInterface, [new NeverType(), new MixedType()]);
-            if ($errRequirement->isSuperTypeOf($type)->yes()) {
-                return [];
-            }
+        if (($impossible instanceof Type && (new NeverType())->isSuperTypeOf($impossible)->yes())
+            || $definite->isSuperTypeOf($type)->yes()) {
+            return [];
         }
 
         return [
