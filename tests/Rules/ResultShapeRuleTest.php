@@ -29,6 +29,10 @@ class ResultShapeRuleTest extends RuleTestCase
                 'Result::transpose() is for Result<Option<T>, E>. The contained type is int.',
                 41,
             ],
+            [
+                'Result::transpose() is for Result<Option<T>, E>. The contained type is int.',
+                53,
+            ],
         ]);
     }
 }

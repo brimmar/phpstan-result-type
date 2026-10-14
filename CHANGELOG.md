@@ -2,7 +2,7 @@
 
 ## [Unreleased]
 
-## [2.0.0] - 2026-10-13
+## [2.0.0] - 2026-10-14
 
 ### Changed
 - Requires PHP 8.5 and PHPStan 2.3.

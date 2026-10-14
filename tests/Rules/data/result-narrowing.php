@@ -8,14 +8,18 @@ use Brimmar\PhpResult\Ok;
 use function PHPStan\Testing\assertType;
 
 /** @param Result<int, string> $result */
-function resultBranches(Result $result): void
+function resultOkBranches(Result $result): void
 {
     if ($result->isOk()) {
         assertType('Brimmar\PhpResult\Ok<int, string>', $result);
     } else {
         assertType('Brimmar\PhpResult\Err<int, string>', $result);
     }
+}
 
+/** @param Result<int, string> $result */
+function resultErrBranches(Result $result): void
+{
     if ($result->isErr()) {
         assertType('Brimmar\PhpResult\Err<int, string>', $result);
     } else {
@@ -55,12 +59,17 @@ function resultErrAnd(Result $result): void
     }
 }
 
-/** @param Ok<int, string>|Err<int, string> $result */
+/**
+ * PHPStan runs a method type-specifying extension only when the receiver is one class.
+ * Ok|Err stays a union here. The published phpresult asserts narrow that case natively.
+ *
+ * @param Ok<int, string>|Err<int, string> $result
+ */
 function resultUnion(Ok|Err $result): void
 {
     if ($result->isOk()) {
-        assertType('Brimmar\PhpResult\Ok<int, string>', $result);
+        assertType('Brimmar\PhpResult\Err<int, string>|Brimmar\PhpResult\Ok<int, string>', $result);
     } else {
-        assertType('Brimmar\PhpResult\Err<int, string>', $result);
+        assertType('Brimmar\PhpResult\Err<int, string>|Brimmar\PhpResult\Ok<int, string>', $result);
     }
 }

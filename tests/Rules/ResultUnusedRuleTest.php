@@ -20,7 +20,7 @@ class ResultUnusedRuleTest extends RuleTestCase
 
     public function testRule(): void
     {
-        $this->analyse([__DIR__ . '/data/result-unused.php'], [
+        $this->analyse([__DIR__ . '/data/result-unused.php', __DIR__ . '/ResultStaticFixtures.php'], [
             [
                 'Unused Brimmar\PhpResult\Interfaces\Result<int, string>. This value may be Err, which should be handled.',
                 12,
@@ -32,6 +32,10 @@ class ResultUnusedRuleTest extends RuleTestCase
             [
                 'Unused Brimmar\PhpResult\Interfaces\Result<int, string>. This value may be Err, which should be handled.',
                 44,
+            ],
+            [
+                'Unused Brimmar\PhpResult\Interfaces\Result<int, string>. This value may be Err, which should be handled.',
+                27,
             ],
         ]);
     }

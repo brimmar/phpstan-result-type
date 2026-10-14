@@ -10,9 +10,8 @@ use Brimmar\PhpResult\Ok;
  * @template E
  */
 interface Result {
-    /**
-     * @phpstan-assert-if-true Ok<T, E> $this
-     */
+    // The published phpresult interface also asserts Ok here. This stub does not,
+    // so the narrowing test sees the extension rather than native assert-if-true.
     public function isOk(): bool;
 
     /**
@@ -22,9 +21,6 @@ interface Result {
      */
     public function isOkAnd(callable $fn): bool;
 
-    /**
-     * @phpstan-assert-if-true Err<T, E> $this
-     */
     public function isErr(): bool;
 
     /**

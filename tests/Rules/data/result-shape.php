@@ -50,6 +50,6 @@ class ShapeFixtures
     /** @param Result<int, string>|null $result */
     public function nullableTranspose(Result|null $result): void
     {
-        $result->transpose();
+        $result?->transpose();
     }
 }
