@@ -12,7 +12,9 @@
   "autoload-dev": {
     "psr-4": {
         "Brimmar\\PHPStan\\Tests\\": "tests/",
-        "Brimmar\\PhpResult\\Interfaces\\": "tests/Rules/"
+        "Brimmar\\PhpResult\\Interfaces\\": "tests/Rules/",
+        "Brimmar\\PhpResult\\": "tests/Fixture/Result/",
+        "Brimmar\\PhpOption\\Interfaces\\": "tests/Fixture/Option/"
     }
   },
   "authors": [
@@ -27,7 +29,7 @@
     "phpstan/phpstan": "^2.3"
   },
   "require-dev": {
-    "phpunit/phpunit": "^10.1"
+    "phpunit/phpunit": "^10.5.66"
   },
   "extra": {
     "phpstan": {

@@ -2,13 +2,37 @@
 
 namespace Brimmar\PhpResult\Interfaces;
 
+use Brimmar\PhpResult\Err;
+use Brimmar\PhpResult\Ok;
+
 /**
  * @template T
  * @template E
  */
 interface Result {
+    /**
+     * @phpstan-assert-if-true Ok<T, E> $this
+     */
     public function isOk(): bool;
+
+    /**
+     * @param callable(T): bool $fn
+     *
+     * @phpstan-assert-if-true Ok<T, E> $this
+     */
+    public function isOkAnd(callable $fn): bool;
+
+    /**
+     * @phpstan-assert-if-true Err<T, E> $this
+     */
     public function isErr(): bool;
+
+    /**
+     * @param callable(E): bool $fn
+     *
+     * @phpstan-assert-if-true Err<T, E> $this
+     */
+    public function isErrAnd(callable $fn): bool;
     /** @return T */
     public function unwrap();
     /** @return E */

@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Brimmar\PHPStan\Rules;
 
+use Brimmar\PhpResult\Err;
+use Brimmar\PhpResult\Ok;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
-use Brimmar\PhpResult\Err;
-use Brimmar\PhpResult\Ok;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\NeverType;
 use PHPStan\Type\ObjectType;

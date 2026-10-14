@@ -2,6 +2,7 @@
 
 namespace Brimmar\PHPStan\Tests\Rules\Data;
 
+use Brimmar\PhpOption\Interfaces\Option;
 use Brimmar\PhpResult\Interfaces\Result;
 
 class ShapeFixtures
@@ -36,6 +37,18 @@ class ShapeFixtures
 
     /** @param Result<int, string> $result */
     public function badTranspose(Result $result): void
+    {
+        $result->transpose();
+    }
+
+    /** @param Result<Option<int>, string> $result */
+    public function goodTranspose(Result $result): void
+    {
+        $result->transpose();
+    }
+
+    /** @param Result<int, string>|null $result */
+    public function nullableTranspose(Result|null $result): void
     {
         $result->transpose();
     }

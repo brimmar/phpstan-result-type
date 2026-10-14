@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Brimmar\PHPStan\Rules;
 
+use Brimmar\PhpResult\Err;
+use Brimmar\PhpResult\Ok;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Assign;
@@ -17,8 +19,6 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Expression;
 use PHPStan\Analyser\Scope;
-use Brimmar\PhpResult\Err;
-use Brimmar\PhpResult\Ok;
 use PHPStan\Reflection\ExtendedMethodReflection;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
