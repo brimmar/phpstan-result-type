@@ -30,10 +30,6 @@ class ResultMatchNamedArgumentsRule implements Rule
 
     public function processNode(Node $node, Scope $scope): array
     {
-        if (! $node instanceof MethodCall) {
-            return [];
-        }
-
         if (! $node->name instanceof Node\Identifier) {
             return [];
         }
@@ -43,11 +39,7 @@ class ResultMatchNamedArgumentsRule implements Rule
         }
 
         $type = $scope->getType($node->var);
-        if (! $type instanceof ObjectType) {
-            return [];
-        }
-
-        if (! $type->isInstanceOf($this->resultInterface)->yes()) {
+        if (! (new ObjectType($this->resultInterface))->isSuperTypeOf($type)->yes()) {
             return [];
         }
 

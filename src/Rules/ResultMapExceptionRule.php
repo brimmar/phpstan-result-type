@@ -8,9 +8,9 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\ArrowFunction;
 use PhpParser\Node\Expr\Closure;
 use PhpParser\Node\Expr\MethodCall;
-use PhpParser\Node\Stmt\Throw_;
-use PhpParser\Node\Expr\Throw_ as ExprThrow;
+use PhpParser\Node\Expr\Throw_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\ObjectType;
@@ -47,16 +47,16 @@ class ResultMapExceptionRule implements Rule
         }
 
         $type = $scope->getType($node->var);
-        if (! $type instanceof ObjectType || ! $type->isInstanceOf($this->resultInterface)->yes()) {
+        if (! (new ObjectType($this->resultInterface))->isSuperTypeOf($type)->yes()) {
             return [];
         }
 
-        return $this->checkMapUsage($node, $scope);
+        return $this->checkMapUsage($node, $methodName);
     }
 
     private function containsThrow(Node $node): bool
     {
-        if ($node instanceof Throw_ || $node instanceof ExprThrow) {
+        if ($node instanceof Throw_) {
             return true;
         }
 
@@ -79,9 +79,9 @@ class ResultMapExceptionRule implements Rule
     }
 
     /**
-     * @return string[]
+     * @return list<IdentifierRuleError>
      */
-    private function checkMapUsage(MethodCall $node, Scope $scope): array
+    private function checkMapUsage(MethodCall $node, string $methodName): array
     {
         $args = $node->getArgs();
         if (count($args) !== 1) {
@@ -97,7 +97,7 @@ class ResultMapExceptionRule implements Rule
         foreach ($stmts as $stmt) {
             if ($this->containsThrow($stmt)) {
                 return [
-                    RuleErrorBuilder::message("Throwing exceptions in {$node->name->name}() callback may lead to unexpected behavior. Consider returning an Err instead.")
+                    RuleErrorBuilder::message("Throwing exceptions in {$methodName}() callback may lead to unexpected behavior. Consider returning an Err instead.")
                         ->identifier('result.mapException')
                         ->build(),
                 ];

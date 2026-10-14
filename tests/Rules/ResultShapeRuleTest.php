@@ -23,15 +23,19 @@ class ResultShapeRuleTest extends RuleTestCase
         $this->analyse([__DIR__ . '/data/result-shape.php'], [
             [
                 'Result::flatten() is for Result<Result<T, E>, E>. The contained type is int.',
-                13,
+                15,
             ],
             [
                 'Result::transpose() is for Result<Option<T>, E>. The contained type is int.',
-                41,
+                43,
             ],
             [
                 'Result::transpose() is for Result<Option<T>, E>. The contained type is int.',
-                53,
+                55,
+            ],
+            [
+                'Result::flatten() is for Result<Result<T, E>, E>. The contained type is int.',
+                61,
             ],
         ]);
     }

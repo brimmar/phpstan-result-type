@@ -28,3 +28,6 @@ jobs:
 
       - name: Run tests
         run: vendor/bin/phpunit
+
+      - name: Analyse src
+        run: vendor/bin/phpstan analyse --no-progress

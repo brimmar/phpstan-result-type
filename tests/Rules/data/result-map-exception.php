@@ -2,7 +2,9 @@
 
 namespace Brimmar\PHPStan\Tests\Rules\Data;
 
+use Brimmar\PhpResult\Err;
 use Brimmar\PhpResult\Interfaces\Result;
+use Brimmar\PhpResult\Ok;
 
 class ResultMapExceptionTestClass
 {
@@ -21,5 +23,11 @@ class ResultMapExceptionTestClass
         $result->map(function ($val) {
             return $val;
         });
+    }
+
+    /** @param Ok<int, string>|Err<int, string> $result */
+    public function testUnionMap(Ok|Err $result): void
+    {
+        $result->map(fn ($val) => throw new \Exception('error'));
     }
 }

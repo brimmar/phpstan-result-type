@@ -28,11 +28,15 @@ class ResultUnsafeMethodCallRuleTest extends RuleTestCase
         $this->analyse([__DIR__ . '/data/result-unsafe-method-call.php'], [
             [
                 'Potentially unsafe use of unwrap() on Result type without proper checks. Consider using isOk()/isErr() checks, match(), or unwrapOr() for safer error handling.',
-                12,
+                14,
             ],
             [
                 'Potentially unsafe use of expectErr() on Result type without proper checks. Consider using isOk()/isErr() checks, match(), or unwrapOr() for safer error handling.',
-                34,
+                36,
+            ],
+            [
+                'Potentially unsafe use of unwrap() on Result type without proper checks. Consider using isOk()/isErr() checks, match(), or unwrapOr() for safer error handling.',
+                61,
             ],
         ]);
     }
