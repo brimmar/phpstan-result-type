@@ -3,7 +3,9 @@
 namespace Brimmar\PHPStan\Tests\Rules\Data;
 
 use Brimmar\PhpOption\Interfaces\Option;
+use Brimmar\PhpResult\Err;
 use Brimmar\PhpResult\Interfaces\Result;
+use Brimmar\PhpResult\Ok;
 
 class ShapeFixtures
 {
@@ -51,5 +53,11 @@ class ShapeFixtures
     public function nullableTranspose(Result|null $result): void
     {
         $result?->transpose();
+    }
+
+    /** @param Ok<int, string>|Err<int, string> $result */
+    public function unionFlatten(Ok|Err $result): void
+    {
+        $result->flatten();
     }
 }

@@ -23,15 +23,19 @@ class ResultMapExceptionRuleTest extends RuleTestCase
         $this->analyse([__DIR__ . '/data/result-map-exception.php'], [
             [
                 'Throwing exceptions in map() callback may lead to unexpected behavior. Consider returning an Err instead.',
-                11,
+                13,
             ],
             [
                 'Throwing exceptions in map() callback may lead to unexpected behavior. Consider returning an Err instead.',
-                15,
+                17,
             ],
             [
                 'Throwing exceptions in mapErr() callback may lead to unexpected behavior. Consider returning an Err instead.',
-                17,
+                19,
+            ],
+            [
+                'Throwing exceptions in map() callback may lead to unexpected behavior. Consider returning an Err instead.',
+                31,
             ],
         ]);
     }
