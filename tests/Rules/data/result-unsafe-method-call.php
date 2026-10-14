@@ -2,7 +2,9 @@
 
 namespace Brimmar\PHPStan\Tests\Rules\Data;
 
+use Brimmar\PhpResult\Err;
 use Brimmar\PhpResult\Interfaces\Result;
+use Brimmar\PhpResult\Ok;
 
 class TestClass
 {
@@ -51,5 +53,11 @@ class TestClass
     public function testExpectErrNever(Result $result): void
     {
         $result->expectErr('missing');
+    }
+
+    /** @param Ok<int, string>|Err<int, string> $result */
+    public function testUnionUnwrap(Ok|Err $result): void
+    {
+        $result->unwrap();
     }
 }

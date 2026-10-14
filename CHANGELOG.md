@@ -8,6 +8,7 @@
 - `src` is clean at PHPStan level max, and CI runs that analysis.
 - `flatten()`, `transpose()`, unused results, and unsafe calls read `T` and `E` with `getTemplateType()`.
 - `map()` and `mapErr()` no longer reference the removed statement `throw` node.
+- Unions of Result are checked. `Ok<int, string>|Err<int, string>` now reports `result.flatten`, `result.unsafeMethodCall`, and `result.mapException`. Those calls were skipped before.
 
 ## [2.0.1] - 2026-10-14
 
