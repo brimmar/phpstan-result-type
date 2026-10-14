@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## [2.0.1] - 2026-10-14
+
+### Fixed
+- Removed the `version` field from `composer.json`. This is the first 2.x release Composer can install. v2.0.0 never reached Packagist because that field was still `1.0.0`.
+
 ## [2.0.0] - 2026-10-14
 
 ### Changed
@@ -10,5 +15,6 @@
 - `result.matchArgsOrder` is gone. Ignore `result.matchNamedArgs` instead.
 - `result.unused`, `result.flatten`, and `result.transpose` are new errors.
 
-[Unreleased]: https://github.com/brimmar/phpstan-result-type/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/brimmar/phpstan-result-type/compare/v2.0.1...HEAD
+[2.0.1]: https://github.com/brimmar/phpstan-result-type/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/brimmar/phpstan-result-type/compare/v1.0.5...v2.0.0
