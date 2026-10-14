@@ -23,7 +23,7 @@ use PHPStan\Reflection\ExtendedMethodReflection;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
-use PHPStan\Type\Generic\GenericObjectType;
+use PHPStan\Type\ErrorType;
 use PHPStan\Type\NeverType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
@@ -34,6 +34,9 @@ use PHPStan\Type\VerbosityLevel;
  */
 class ResultUnusedRule implements Rule
 {
+    /**
+     * @param class-string $resultInterface
+     */
     public function __construct(
         private ReflectionProvider $reflectionProvider,
         private string $resultInterface = 'Brimmar\PhpResult\Interfaces\Result',
@@ -84,8 +87,8 @@ class ResultUnusedRule implements Rule
             return "Unused {$name}. This value must be used.";
         }
 
-        $error = $type instanceof GenericObjectType ? ($type->getTypes()[1] ?? null) : null;
-        if ($error instanceof Type && $this->isNever($error)) {
+        $error = $type->getTemplateType($this->resultInterface, 'E');
+        if (! $error instanceof ErrorType && $this->isNever($error)) {
             return "Unused {$name}. The contained value must be used.";
         }
 
@@ -99,15 +102,15 @@ class ResultUnusedRule implements Rule
 
     private function errorCannotExist(Type $type): bool
     {
-        if (! $type instanceof GenericObjectType || count($type->getTypes()) < 2) {
+        $error = $type->getTemplateType($this->resultInterface, 'E');
+        if ($error instanceof ErrorType || ! $this->isNever($error)) {
             return false;
         }
 
-        if (! $this->isNever($type->getTypes()[1])) {
+        $success = $type->getTemplateType($this->resultInterface, 'T');
+        if ($success instanceof ErrorType) {
             return false;
         }
-
-        $success = $type->getTypes()[0];
 
         return ! (new ObjectType($this->resultInterface))->isSuperTypeOf($success)->yes()
             && ! (new ObjectType('Brimmar\PhpOption\Interfaces\Option'))->isSuperTypeOf($success)->yes();

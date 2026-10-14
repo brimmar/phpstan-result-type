@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+## [2.0.2] - 2026-10-14
+
+### Fixed
+- `src` is clean at PHPStan level max, and CI runs that analysis.
+- `flatten()`, `transpose()`, unused results, and unsafe calls read `T` and `E` with `getTemplateType()`.
+- `map()` and `mapErr()` no longer reference the removed statement `throw` node.
+
 ## [2.0.1] - 2026-10-14
 
 ### Fixed
@@ -15,6 +22,7 @@
 - `result.matchArgsOrder` is gone. Ignore `result.matchNamedArgs` instead.
 - `result.unused`, `result.flatten`, and `result.transpose` are new errors.
 
-[Unreleased]: https://github.com/brimmar/phpstan-result-type/compare/v2.0.1...HEAD
+[Unreleased]: https://github.com/brimmar/phpstan-result-type/compare/v2.0.2...HEAD
+[2.0.2]: https://github.com/brimmar/phpstan-result-type/compare/v2.0.1...v2.0.2
 [2.0.1]: https://github.com/brimmar/phpstan-result-type/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/brimmar/phpstan-result-type/compare/v1.0.5...v2.0.0
