@@ -13,9 +13,10 @@ use PHPStan\Testing\RuleTestCase;
  */
 class ResultMatchNamedArgumentsRuleTest extends RuleTestCase
 {
+    #[\Override]
     protected function getRule(): Rule
     {
-        return new ResultMatchNamedArgumentsRule('Brimmar\PhpResult\Interfaces\Result');
+        return new ResultMatchNamedArgumentsRule('Brimmar\PhpResult\Result');
     }
 
     public function testRule(): void

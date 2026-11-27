@@ -3,7 +3,7 @@
 namespace Brimmar\PHPStan\Tests\Rules\Data;
 
 use Brimmar\PhpResult\Err;
-use Brimmar\PhpResult\Interfaces\Result;
+use Brimmar\PhpResult\Result;
 use Brimmar\PhpResult\Ok;
 
 class TestClass
@@ -59,5 +59,29 @@ class TestClass
     public function testUnionUnwrap(Ok|Err $result): void
     {
         $result->unwrap();
+    }
+
+    /** @param Result<int, \RuntimeException> $result */
+    public function testUnwrapOrThrowThrowable(Result $result): void
+    {
+        $result->unwrapOrThrow();
+    }
+
+    /** @param Result<int, string> $result */
+    public function testUnwrapOrThrowString(Result $result): void
+    {
+        $result->unwrapOrThrow();
+    }
+
+    /** @param Result<int, \RuntimeException|string> $result */
+    public function testUnwrapOrThrowSomeErrorsAreNotThrowable(Result $result): void
+    {
+        $result->unwrapOrThrow();
+    }
+
+    /** @param Result<int, never> $result */
+    public function testUnwrapOrThrowNever(Result $result): void
+    {
+        $result->unwrapOrThrow();
     }
 }

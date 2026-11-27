@@ -22,13 +22,15 @@ class ResultShapeRule implements Rule
     /**
      * @param class-string $resultInterface
      */
-    public function __construct(private string $resultInterface = 'Brimmar\PhpResult\Interfaces\Result') {}
+    public function __construct(private string $resultInterface = 'Brimmar\PhpResult\Result') {}
 
+    #[\Override]
     public function getNodeType(): string
     {
         return MethodCall::class;
     }
 
+    #[\Override]
     public function processNode(Node $node, Scope $scope): array
     {
         if (! $node->name instanceof Identifier) {
@@ -50,7 +52,7 @@ class ResultShapeRule implements Rule
             return [];
         }
 
-        $expected = $method === 'flatten' ? $this->resultInterface : 'Brimmar\PhpOption\Interfaces\Option';
+        $expected = $method === 'flatten' ? $this->resultInterface : 'Brimmar\PhpOption\Option';
         if (! (new ObjectType($expected))->isSuperTypeOf($inner)->no()) {
             return [];
         }
@@ -58,8 +60,8 @@ class ResultShapeRule implements Rule
         $needed = $method === 'flatten' ? 'Result<Result<T, E>, E>' : 'Result<Option<T>, E>';
 
         return [
-            RuleErrorBuilder::message("Result::{$method}() is for {$needed}. The contained type is ".$inner->describe(VerbosityLevel::typeOnly()).'.')
-                ->identifier('result.'.$method)
+            RuleErrorBuilder::message("Result::{$method}() is for {$needed}. The contained type is " . $inner->describe(VerbosityLevel::typeOnly()) . '.')
+                ->identifier('result.' . $method)
                 ->build(),
         ];
     }

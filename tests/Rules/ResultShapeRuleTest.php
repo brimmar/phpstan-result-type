@@ -13,9 +13,10 @@ use PHPStan\Testing\RuleTestCase;
  */
 class ResultShapeRuleTest extends RuleTestCase
 {
+    #[\Override]
     protected function getRule(): Rule
     {
-        return new ResultShapeRule('Brimmar\PhpResult\Interfaces\Result');
+        return new ResultShapeRule('Brimmar\PhpResult\Result');
     }
 
     public function testRule(): void

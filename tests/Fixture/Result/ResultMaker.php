@@ -1,6 +1,8 @@
 <?php
 
-namespace Brimmar\PhpResult\Interfaces;
+declare(strict_types=1);
+
+namespace Brimmar\PhpResult;
 
 interface ResultMaker
 {

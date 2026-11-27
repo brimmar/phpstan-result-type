@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Brimmar\PhpResult;
 
-use Brimmar\PhpResult\Interfaces\Result;
-
 trait ResultMethods
 {
     public function isOk(): bool
@@ -29,6 +27,11 @@ trait ResultMethods
     }
 
     public function unwrap(): mixed
+    {
+        return null;
+    }
+
+    public function unwrapOrThrow(): mixed
     {
         return null;
     }

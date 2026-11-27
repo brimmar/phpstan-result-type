@@ -12,6 +12,7 @@ class ResultTypeSpecifyingExtensionTest extends TypeInferenceTestCase
     public static function dataFileAsserts(): iterable
     {
         yield from self::gatherAssertTypes(__DIR__ . '/data/result-narrowing.php');
+        yield from self::gatherAssertTypes(__DIR__ . '/data/result-gen.php');
     }
 
     #[DataProvider('dataFileAsserts')]
@@ -20,6 +21,7 @@ class ResultTypeSpecifyingExtensionTest extends TypeInferenceTestCase
         $this->assertFileAsserts($assertType, $file, ...$args);
     }
 
+    #[\Override]
     public static function getAdditionalConfigFiles(): array
     {
         return [__DIR__ . '/../../extension.neon'];

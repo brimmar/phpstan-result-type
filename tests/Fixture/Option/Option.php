@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Brimmar\PhpOption\Interfaces;
+namespace Brimmar\PhpOption;
 
 /**
- * @template T
+ * @template-covariant T
  */
-interface Option {}
+abstract class Option {}

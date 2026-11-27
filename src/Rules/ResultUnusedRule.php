@@ -39,14 +39,16 @@ class ResultUnusedRule implements Rule
      */
     public function __construct(
         private ReflectionProvider $reflectionProvider,
-        private string $resultInterface = 'Brimmar\PhpResult\Interfaces\Result',
+        private string $resultInterface = 'Brimmar\PhpResult\Result',
     ) {}
 
+    #[\Override]
     public function getNodeType(): string
     {
         return Expression::class;
     }
 
+    #[\Override]
     public function processNode(Node $node, Scope $scope): array
     {
         $expr = $node->expr;
@@ -113,7 +115,7 @@ class ResultUnusedRule implements Rule
         }
 
         return ! (new ObjectType($this->resultInterface))->isSuperTypeOf($success)->yes()
-            && ! (new ObjectType('Brimmar\PhpOption\Interfaces\Option'))->isSuperTypeOf($success)->yes();
+            && ! (new ObjectType('Brimmar\PhpOption\Option'))->isSuperTypeOf($success)->yes();
     }
 
     private function discardIsAlreadyReported(Expr $expr, Scope $scope): bool

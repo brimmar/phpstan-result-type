@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Brimmar\PHPStan\Tests\Rules;
 
-use Brimmar\PhpResult\Interfaces\Result;
+use Brimmar\PhpResult\Result;
 
 class ResultStaticFixtures
 {

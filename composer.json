@@ -10,10 +10,9 @@
   },
   "autoload-dev": {
     "psr-4": {
-        "Brimmar\\PHPStan\\Tests\\": "tests/",
-        "Brimmar\\PhpResult\\Interfaces\\": "tests/Rules/",
-        "Brimmar\\PhpResult\\": "tests/Fixture/Result/",
-        "Brimmar\\PhpOption\\Interfaces\\": "tests/Fixture/Option/"
+      "Brimmar\\PHPStan\\Tests\\": "tests/",
+      "Brimmar\\PhpResult\\": "tests/Fixture/Result/",
+      "Brimmar\\PhpOption\\": "tests/Fixture/Option/"
     }
   },
   "authors": [
@@ -27,8 +26,15 @@
     "php": ">=8.5",
     "phpstan/phpstan": "^2.3"
   },
+  "conflict": {
+    "brimmar/phpresult": "<4.0"
+  },
   "require-dev": {
-    "phpunit/phpunit": "^13.4.1"
+    "phpunit/phpunit": "^13.4.1",
+    "phpstan/phpstan-strict-rules": "^2.1",
+    "phpstan/phpstan-deprecation-rules": "^2.0",
+    "phpstan/phpstan-phpunit": "^2.1",
+    "laravel/pint": "^1.32"
   },
   "extra": {
     "phpstan": {
@@ -36,5 +42,16 @@
         "extension.neon"
       ]
     }
+  },
+  "scripts": {
+    "format": "pint",
+    "format:check": "pint --test",
+    "analyse": "phpstan analyse --no-progress",
+    "test": "phpunit",
+    "check": [
+      "@format:check",
+      "@analyse",
+      "@test"
+    ]
   }
 }

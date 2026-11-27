@@ -13,6 +13,7 @@ use PHPStan\Testing\RuleTestCase;
  */
 class ResultUnusedRuleTest extends RuleTestCase
 {
+    #[\Override]
     protected function getRule(): Rule
     {
         return new ResultUnusedRule(self::createReflectionProvider());
@@ -22,19 +23,19 @@ class ResultUnusedRuleTest extends RuleTestCase
     {
         $this->analyse([__DIR__ . '/data/result-unused.php', __DIR__ . '/ResultStaticFixtures.php'], [
             [
-                'Unused Brimmar\PhpResult\Interfaces\Result<int, string>. This value may be Err, which should be handled.',
+                'Unused Brimmar\PhpResult\Result<int, string>. This value may be Err, which should be handled.',
                 12,
             ],
             [
-                'Unused Brimmar\PhpResult\Interfaces\Result<Brimmar\PhpResult\Interfaces\Result<int, string>, never>. The contained value must be used.',
+                'Unused Brimmar\PhpResult\Result<Brimmar\PhpResult\Result<int, string>, never>. The contained value must be used.',
                 22,
             ],
             [
-                'Unused Brimmar\PhpResult\Interfaces\Result<int, string>. This value may be Err, which should be handled.',
+                'Unused Brimmar\PhpResult\Result<int, string>. This value may be Err, which should be handled.',
                 44,
             ],
             [
-                'Unused Brimmar\PhpResult\Interfaces\Result<int, string>. This value may be Err, which should be handled.',
+                'Unused Brimmar\PhpResult\Result<int, string>. This value may be Err, which should be handled.',
                 27,
             ],
         ]);

@@ -1,4 +1,28 @@
+includes:
+    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
+    - vendor/phpstan/phpstan-deprecation-rules/rules.neon
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/phpstan/phpstan-phpunit/rules.neon
+
 parameters:
     level: max
     paths:
         - src
+        - tests
+    excludePaths:
+        - tests/Fixture
+        - tests/Rules/data
+        - tests/Rules/ResultStaticFixtures.php
+    checkUninitializedProperties: true
+    checkImplicitMixed: true
+    checkBenevolentUnionTypes: true
+    checkTooWideReturnTypesInProtectedAndPublicMethods: true
+    checkMissingCallableSignature: true
+    checkMissingOverrideMethodAttribute: true
+    reportPossiblyNonexistentGeneralArrayOffset: true
+    reportPossiblyNonexistentConstantArrayOffset: true
+    reportAnyTypeWideningInVarTag: true
+    reportUnmatchedIgnoredErrors: true
+    additionalConstructors:
+        - PHPStan\Analyser\TypeSpecifierAwareExtension::setTypeSpecifier

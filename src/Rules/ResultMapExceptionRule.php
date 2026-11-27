@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\ArrowFunction;
 use PhpParser\Node\Expr\Closure;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Throw_;
+use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\Rule;
@@ -22,11 +23,12 @@ class ResultMapExceptionRule implements Rule
 {
     private string $resultInterface;
 
-    public function __construct(string $resultInterface = 'Brimmar\PhpResult\Interfaces\Result')
+    public function __construct(string $resultInterface = 'Brimmar\PhpResult\Result')
     {
         $this->resultInterface = $resultInterface;
     }
 
+    #[\Override]
     public function getNodeType(): string
     {
         return MethodCall::class;
@@ -35,6 +37,7 @@ class ResultMapExceptionRule implements Rule
     /**
      * @param  MethodCall  $node
      */
+    #[\Override]
     public function processNode(Node $node, Scope $scope): array
     {
         if (! $node->name instanceof Node\Identifier) {
@@ -56,26 +59,7 @@ class ResultMapExceptionRule implements Rule
 
     private function containsThrow(Node $node): bool
     {
-        if ($node instanceof Throw_) {
-            return true;
-        }
-
-        foreach ($node->getSubNodeNames() as $name) {
-            $subNode = $node->$name;
-            if ($subNode instanceof Node) {
-                if ($this->containsThrow($subNode)) {
-                    return true;
-                }
-            } elseif (is_array($subNode)) {
-                foreach ($subNode as $item) {
-                    if ($item instanceof Node && $this->containsThrow($item)) {
-                        return true;
-                    }
-                }
-            }
-        }
-
-        return false;
+        return (new NodeFinder())->findFirstInstanceOf($node, Throw_::class) !== null;
     }
 
     /**
@@ -88,7 +72,7 @@ class ResultMapExceptionRule implements Rule
             return [];
         }
 
-        $callbackArg = $args[0]->value;
+        $callbackArg = reset($args)->value;
         if (! $callbackArg instanceof Closure && ! $callbackArg instanceof ArrowFunction) {
             return [];
         }

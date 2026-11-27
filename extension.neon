@@ -2,36 +2,48 @@ services:
     -
         class: Brimmar\PHPStan\Rules\ResultUnsafeMethodCallRule
         arguments:
-            resultInterface: 'Brimmar\PhpResult\Interfaces\Result'
+            resultInterface: 'Brimmar\PhpResult\Result'
         tags:
             - phpstan.rules.rule
     -
         class: Brimmar\PHPStan\Rules\ResultMapExceptionRule
         arguments:
-            resultInterface: 'Brimmar\PhpResult\Interfaces\Result'
+            resultInterface: 'Brimmar\PhpResult\Result'
         tags:
             - phpstan.rules.rule
     -
         class: Brimmar\PHPStan\Rules\ResultMatchNamedArgumentsRule
         arguments:
-            resultInterface: 'Brimmar\PhpResult\Interfaces\Result'
+            resultInterface: 'Brimmar\PhpResult\Result'
         tags:
             - phpstan.rules.rule
     -
         class: Brimmar\PHPStan\Rules\ResultUnusedRule
         arguments:
-            resultInterface: 'Brimmar\PhpResult\Interfaces\Result'
+            resultInterface: 'Brimmar\PhpResult\Result'
         tags:
             - phpstan.rules.rule
     -
         class: Brimmar\PHPStan\Rules\ResultShapeRule
         arguments:
-            resultInterface: 'Brimmar\PhpResult\Interfaces\Result'
+            resultInterface: 'Brimmar\PhpResult\Result'
         tags:
             - phpstan.rules.rule
     -
         class: Brimmar\PHPStan\Extensions\ResultTypeSpecifyingExtension
         arguments:
-            resultInterface: 'Brimmar\PhpResult\Interfaces\Result'
+            resultInterface: 'Brimmar\PhpResult\Result'
         tags:
             - phpstan.typeSpecifier.methodTypeSpecifyingExtension
+    -
+        class: Brimmar\PHPStan\Extensions\ResultGenYieldTypeExtension
+        arguments:
+            resultInterface: 'Brimmar\PhpResult\Result'
+        tags:
+            - phpstan.broker.expressionTypeResolverExtension
+    -
+        class: Brimmar\PHPStan\Extensions\ResultGenYieldVisitor
+        arguments:
+            resultInterface: 'Brimmar\PhpResult\Result'
+        tags:
+            - phpstan.parser.richParserNodeVisitor

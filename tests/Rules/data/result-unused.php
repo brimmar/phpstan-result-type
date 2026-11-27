@@ -2,8 +2,8 @@
 
 namespace Brimmar\PHPStan\Tests\Rules\Data;
 
-use Brimmar\PhpResult\Interfaces\Result;
-use Brimmar\PhpResult\Interfaces\ResultMaker;
+use Brimmar\PhpResult\Result;
+use Brimmar\PhpResult\ResultMaker;
 
 class UnusedFixtures
 {

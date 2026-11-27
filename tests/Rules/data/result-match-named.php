@@ -2,7 +2,7 @@
 
 namespace Brimmar\PHPStan\Tests\Rules\Data;
 
-use Brimmar\PhpResult\Interfaces\Result;
+use Brimmar\PhpResult\Result;
 
 class MatchFixtures
 {

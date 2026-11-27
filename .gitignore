@@ -6,3 +6,5 @@ vendor
 .beads/bd.pipe
 .beads/.exclusive-lock
 .git/beads-worktrees/
+.phpunit.result.cache
+.phpunit.cache

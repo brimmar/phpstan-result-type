@@ -18,16 +18,18 @@ class ResultMatchNamedArgumentsRule implements Rule
 {
     private string $resultInterface;
 
-    public function __construct(string $resultInterface = 'Brimmar\PhpResult\Interfaces\Result')
+    public function __construct(string $resultInterface = 'Brimmar\PhpResult\Result')
     {
         $this->resultInterface = $resultInterface;
     }
 
+    #[\Override]
     public function getNodeType(): string
     {
         return MethodCall::class;
     }
 
+    #[\Override]
     public function processNode(Node $node, Scope $scope): array
     {
         if (! $node->name instanceof Node\Identifier) {

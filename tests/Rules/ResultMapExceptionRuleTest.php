@@ -13,9 +13,10 @@ use PHPStan\Testing\RuleTestCase;
  */
 class ResultMapExceptionRuleTest extends RuleTestCase
 {
+    #[\Override]
     protected function getRule(): Rule
     {
-        return new ResultMapExceptionRule('Brimmar\PhpResult\Interfaces\Result');
+        return new ResultMapExceptionRule('Brimmar\PhpResult\Result');
     }
 
     public function testRule(): void

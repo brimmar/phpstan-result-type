@@ -26,8 +26,11 @@ jobs:
       - name: Install dependencies
         run: composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-progress
 
+      - name: Check formatting
+        run: vendor/bin/pint --test
+
+      - name: Analyse
+        run: vendor/bin/phpstan analyse --no-progress
+
       - name: Run tests
         run: vendor/bin/phpunit
-
-      - name: Analyse src
-        run: vendor/bin/phpstan analyse --no-progress

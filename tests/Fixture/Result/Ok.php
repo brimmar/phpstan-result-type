@@ -4,20 +4,18 @@ declare(strict_types=1);
 
 namespace Brimmar\PhpResult;
 
-use Brimmar\PhpResult\Interfaces\Result;
-
 /**
  * Test double for Ok in brimmar/phpresult.
  *
  * autoload-dev maps Brimmar\PhpResult\ onto tests/Fixture/Result. Do not require
  * brimmar/phpresult as well, or this class collides with the real one.
  *
- * @template T
- * @template E
+ * @template-covariant T
+ * @template-covariant E = never
  *
- * @implements Result<T, E>
+ * @extends Result<T, E>
  */
-class Ok implements Result
+class Ok extends Result
 {
     use ResultMethods;
 }
